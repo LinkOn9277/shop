@@ -12,6 +12,7 @@ import java.net.URLEncoder;
 @NoArgsConstructor @Builder
 @AllArgsConstructor
 public class RequestPageDTO {
+    // 페이징처리 , 검색처리를 위한 DTO
 
     // 기본적으로 1인데
     // @Builder.Default 사용해서
