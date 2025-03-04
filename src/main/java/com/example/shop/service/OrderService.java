@@ -21,7 +21,7 @@ import java.util.List;
 @Log4j2
 @Transactional
 @RequiredArgsConstructor
-public class OrderService {
+public class OrderService { // 양방향
 
     private final OrderRepository orderRepository;
 
@@ -79,6 +79,7 @@ public class OrderService {
         // 주문목록 List
         List<Orders> ordersList = ordersPage.getContent();
 
+//        ordersList.forEach(orders -> log.info(orders));
         // 주문목록 DTO 변환
         List<OrderHistDTO> orderHistDTOList = new ArrayList<>();
 
@@ -97,11 +98,13 @@ public class OrderService {
                     // 대표이미지 라면 orderItemDTO로 변환
                     if (imgEntity.getRepimgYn() != null && imgEntity.getRepimgYn().equals("Y")){
                         OrderItemDTO orderItemDTO
-                                = new OrderItemDTO(entity , imgEntity.getImgUrl() + imgEntity.getImgName());
+                                = new OrderItemDTO(entity , imgEntity.getImgName());
                         orderHistDTO.addOrderItemDTO(orderItemDTO);
+
                     }
                 }
             }
+            orderHistDTOList.add(orderHistDTO);
         }
         return new ResponesPageDTO(requestPageDTO, orderHistDTOList, (int) ordersPage.getTotalElements());
 

@@ -127,7 +127,7 @@ public class ItemService {
         return responesPageDTO;
     }
 
-    public ItemDTO read(Long item_id){
+    public ItemDTO read(Long item_id){ // 읽기
 
         Item item = itemRepository.findById(item_id).orElseThrow(EntityNotFoundException::new);
 

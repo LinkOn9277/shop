@@ -8,7 +8,7 @@ import lombok.*;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "orders")
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderItem extends BaseTimeEntity {
