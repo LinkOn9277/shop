@@ -107,6 +107,24 @@ public class OrderController {
         return "order/orderHist";
     }
 
+    @PostMapping("/order/{orderId}/cancel") // 이게 패스밸류
+    public ResponseEntity cancelOrder(
+            @PathVariable("orderId") Long orderId , Principal principal){
+
+        if (!orderService.validateOrder(orderId, principal.getName())){
+
+            return new ResponseEntity<String>("주문취소 권한이 없습니다." , HttpStatus.FORBIDDEN);
+
+        }
+
+        log.info("받은 주문번호 : " + orderId);
+        orderService.cancelOrder(orderId);
+
+        return new ResponseEntity<Long>(orderId , HttpStatus.OK);
+    }
+
+
+
 
 
 }
