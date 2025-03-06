@@ -1,5 +1,6 @@
 package com.example.shop.contorller;
 
+import com.example.shop.dto.CartDetailDTO;
 import com.example.shop.dto.CartItemDTO;
 import com.example.shop.service.CartService;
 import jakarta.persistence.EntityNotFoundException;
@@ -9,8 +10,12 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
@@ -58,6 +63,36 @@ public class CartController {
         }
 
         return new ResponseEntity<Long>(cartItemId , HttpStatus.OK);
+    }
+
+    @GetMapping("/cart")
+    public String cartHist(Principal principal , Model model){
+
+//        List<CartDetailDTO> cartDetailDTOList
+//                = cartService.CartList(principal.getName());
+//        model.addAttribute("cartDetailDTOList", cartDetailDTOList);
+
+        model.addAttribute
+                ("cartDetailDTOList", cartService.CartList(principal.getName()));
+
+        return "cart/cartList";
+
+    }
+
+    @PatchMapping("/cartItem/{cartItemId}/{count}")
+    public ResponseEntity updateCount(@PathVariable("cartItemId") Long cartItemId,
+                                      @PathVariable("count") int count, Principal principal){
+        log.info("장바구니 아이템 번호" + cartItemId);
+        log.info("수량 : " + count);
+
+        if(count <= 0){
+            return new ResponseEntity<String>("최소 1개이상 담아주세요." , HttpStatus.BAD_REQUEST);
+        }else{
+
+        }
+        // 카트 상품에 대한 접근제한
+        // 접근이 가능하다면 DB에 장바구니아이템에 대한 수량을 변경한다
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 
